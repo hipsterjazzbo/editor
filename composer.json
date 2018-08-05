@@ -1,0 +1,22 @@
+{
+    "name": "placemat/editor",
+    "require": {
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Placemat\\Editor\\": "src/"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Placemat\\Editor\\Tests\\": "tests/"
+        }
+    }
+}
