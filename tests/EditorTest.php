@@ -126,16 +126,16 @@ class EditorTest extends TestCase
 
     public function testSlugify()
     {
-        $slug = Editor::create($this->str)->slugify()->str();
+        $slug = Editor::create($this->str)->slug()->str();
 
         $this->assertEquals('hello-world', $slug);
     }
 
-    public function testSplit()
+    public function testChunk()
     {
-        $split = Editor::create($this->str)->split(2);
+        $chunk = Editor::create($this->str)->chunk(2);
 
-        $this->assertEquals(['he', 'll', 'ö ', 'wo', 'rl', 'd'], $split);
+        $this->assertEquals(['he', 'll', 'ö ', 'wo', 'rl', 'd'], $chunk);
     }
 
     public function testSplitWords()
