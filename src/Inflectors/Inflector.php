@@ -144,9 +144,9 @@ abstract class Inflector
      *
      * @param array $rules
      *
-     * @return array
+     * @return void
      */
-    public function addPluralRules(array $rules): array
+    public function addPluralRules(array $rules): void
     {
         static::$pluralRules = array_merge(static::$pluralRules, $rules);
     }
@@ -157,9 +157,9 @@ abstract class Inflector
      *
      * @param array $rules
      *
-     * @return array
+     * @return void
      */
-    public function addSingularRules(array $rules): array
+    public function addSingularRules(array $rules): void
     {
         static::$singularRules = array_merge(static::$singularRules, $rules);
     }
@@ -169,9 +169,9 @@ abstract class Inflector
      *
      * @param array $rules
      *
-     * @return array
+     * @return void
      */
-    public function addIrregularRules(array $rules): array
+    public function addIrregularRules(array $rules): void
     {
         static::$irregularRules = array_merge(static::$irregularRules, $rules);
     }
@@ -181,9 +181,9 @@ abstract class Inflector
      *
      * @param array $rules
      *
-     * @return array
+     * @return void
      */
-    public function addUncountableRules(array $rules): array
+    public function addUncountableRules(array $rules): void
     {
         static::$uncountableRules = array_merge(static::$uncountableRules, $rules);
     }
