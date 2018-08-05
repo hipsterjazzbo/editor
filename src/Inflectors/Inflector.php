@@ -44,7 +44,7 @@ abstract class Inflector
      *
      * @return array
      */
-    abstract public function pluralRules(): array;
+    abstract public static function pluralRules(): array;
 
     /**
      * Return an array of singularization rules, from most to least specific, in the form $rule => $replacement
@@ -52,21 +52,21 @@ abstract class Inflector
      *
      * @return array
      */
-    abstract public function singularRules(): array;
+    abstract public static function singularRules(): array;
 
     /**
      * Return an array of irregular replacements, in the form singular => plural ('goose' => 'geese')
      *
      * @return array
      */
-    abstract public function irregularRules(): array;
+    abstract public static function irregularRules(): array;
 
     /**
      * Return an array of uncountable rules (sheep, police)
      *
      * @return array
      */
-    abstract public function uncountableRules(): array;
+    abstract public static function uncountableRules(): array;
     /**
      * Inflector constructor.
      *
@@ -91,101 +91,7 @@ abstract class Inflector
      */
     public function isUncountable(): bool
     {
-        return array_key_exists($this->str, $this->getUncountableRules());
-    }
-
-    /**
-     * Return an array of pluralization rules, from most to least specific, in the form $rule => $replacement,
-     * merged with any custom rules that have been set.
-     *
-     * @return array
-     */
-    public function getPluralRules(): array
-    {
-        return array_merge($this->pluralRules(), static::$pluralRules);
-    }
-
-    /**
-     * Return an array of singularization rules, from most to least specific, in the form $rule => $replacement,
-     * merged with any custom rules that have been set.
-     *
-     *
-     * @return array
-     */
-    public function getSingularRules(): array
-    {
-        return array_merge($this->singularRules(), static::$singularRules);
-    }
-
-    /**
-     * Return an array of irregular replacements, in the form singular => plural ('goose' => 'geese'),
-     * merged with any custom rules that have been set.
-     *
-     * @return array
-     */
-    public function getIrregularRules(): array
-    {
-        return array_merge($this->irregularRules(), static::$irregularRules);
-    }
-
-    /**
-     * Return an array of uncountable rules (sheep, police),
-     * merged with any custom rules that have been set.
-     *
-     * @return array
-     */
-    public function getUncountableRules(): array
-    {
-        return array_merge($this->uncountableRules(), static::$uncountableRules);
-    }
-
-    /**
-     * Add custom pluralization rules, from most to least specific, in the form $rule => $replacement.
-     *
-     * @param array $rules
-     *
-     * @return void
-     */
-    public function addPluralRules(array $rules): void
-    {
-        static::$pluralRules = array_merge(static::$pluralRules, $rules);
-    }
-
-    /**
-     * Add custom singularization rules, from most to least specific, in the form $rule => $replacement.
-     *
-     *
-     * @param array $rules
-     *
-     * @return void
-     */
-    public function addSingularRules(array $rules): void
-    {
-        static::$singularRules = array_merge(static::$singularRules, $rules);
-    }
-
-    /**
-     * Add custom irregular rules, in the form singular => plural ('goose' => 'geese').
-     *
-     * @param array $rules
-     *
-     * @return void
-     */
-    public function addIrregularRules(array $rules): void
-    {
-        static::$irregularRules = array_merge(static::$irregularRules, $rules);
-    }
-
-    /**
-     * Add custom uncountable rules (sheep, police).
-     *
-     * @param array $rules
-     *
-     * @return void
-     */
-    public function addUncountableRules(array $rules): void
-    {
-        static::$uncountableRules = array_merge(static::$uncountableRules, $rules);
+        return in_array($this->str, static::getUncountableRules());
     }
 
     /**
@@ -193,7 +99,7 @@ abstract class Inflector
      */
     public function pluralize(): string
     {
-        return $this->inflect(static::$pluralCache, $this->getPluralRules(), $this->getIrregularRules());
+        return $this->inflect(static::$pluralCache, static::getPluralRules(), static::getIrregularRules());
     }
 
     /**
@@ -201,7 +107,7 @@ abstract class Inflector
      */
     public function singularize(): string
     {
-        return $this->inflect(static::$singularCache, $this->getSingularRules(), array_flip($this->getIrregularRules()));
+        return $this->inflect(static::$singularCache, static::getSingularRules(), array_flip(static::getIrregularRules()));
     }
 
     /**
@@ -232,5 +138,99 @@ abstract class Inflector
         }
 
         return $this->str;
+    }
+
+    /**
+     * Return an array of pluralization rules, from most to least specific, in the form $rule => $replacement,
+     * merged with any custom rules that have been set.
+     *
+     * @return array
+     */
+    public static function getPluralRules(): array
+    {
+        return array_merge(static::pluralRules(), static::$pluralRules);
+    }
+
+    /**
+     * Return an array of singularization rules, from most to least specific, in the form $rule => $replacement,
+     * merged with any custom rules that have been set.
+     *
+     *
+     * @return array
+     */
+    public static function getSingularRules(): array
+    {
+        return array_merge(static::singularRules(), static::$singularRules);
+    }
+
+    /**
+     * Return an array of irregular replacements, in the form singular => plural ('goose' => 'geese'),
+     * merged with any custom rules that have been set.
+     *
+     * @return array
+     */
+    public static function getIrregularRules(): array
+    {
+        return array_merge(static::irregularRules(), static::$irregularRules);
+    }
+
+    /**
+     * Return an array of uncountable rules (sheep, police),
+     * merged with any custom rules that have been set.
+     *
+     * @return array
+     */
+    public static function getUncountableRules(): array
+    {
+        return array_merge(static::uncountableRules(), static::$uncountableRules);
+    }
+
+    /**
+     * Add custom pluralization rules, from most to least specific, in the form $rule => $replacement.
+     *
+     * @param array $rules
+     *
+     * @return void
+     */
+    public static function addPluralRules(array $rules): void
+    {
+        static::$pluralRules = array_merge(static::$pluralRules, $rules);
+    }
+
+    /**
+     * Add custom singularization rules, from most to least specific, in the form $rule => $replacement.
+     *
+     *
+     * @param array $rules
+     *
+     * @return void
+     */
+    public static function addSingularRules(array $rules): void
+    {
+        static::$singularRules = array_merge(static::$singularRules, $rules);
+    }
+
+    /**
+     * Add custom irregular rules, in the form singular => plural ('goose' => 'geese').
+     *
+     * @param array $rules
+     *
+     * @return void
+     */
+    public static function addIrregularRules(array $rules): void
+    {
+        static::$irregularRules = array_merge(static::$irregularRules, $rules);
+    }
+
+    /**
+     * Add custom uncountable rules (sheep, police).
+     *
+     * @param array $rules
+     *
+     * @return void
+     */
+    public static function addUncountableRules(array $rules): void
+    {
+        static::$uncountableRules = array_merge(static::$uncountableRules, $rules);
     }
 }

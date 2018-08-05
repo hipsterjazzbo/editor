@@ -12,7 +12,7 @@ class Tr extends Inflector
      *
      * @return array
      */
-    public function pluralRules(): array
+    public static function pluralRules(): array
     {
         return [
             '/([eöiü][^aoıueöiü]{0,6})$/u' => '\1ler',
@@ -26,7 +26,7 @@ class Tr extends Inflector
      *
      * @return array
      */
-    public function singularRules(): array
+    public static function singularRules(): array
     {
         return [
             '/l[ae]r$/iu' => '',
@@ -38,7 +38,7 @@ class Tr extends Inflector
      *
      * @return array
      */
-    public function irregularRules(): array
+    public static function irregularRules(): array
     {
         return [
             'ben' => 'biz',
@@ -52,7 +52,7 @@ class Tr extends Inflector
      *
      * @return array
      */
-    public function uncountableRules(): array
+    public static function uncountableRules(): array
     {
         return [];
     }

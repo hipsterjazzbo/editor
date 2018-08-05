@@ -12,7 +12,7 @@ class Es extends Inflector
      *
      * @return array
      */
-    public function pluralRules(): array
+    public static function pluralRules(): array
     {
         return [
             '/ú([sn])$/iu'     => 'u\1es',
@@ -33,7 +33,7 @@ class Es extends Inflector
      *
      * @return array
      */
-    public function singularRules(): array
+    public static function singularRules(): array
     {
         return [
             '/ereses$/' => 'erés',
@@ -49,7 +49,7 @@ class Es extends Inflector
      *
      * @return array
      */
-    public function irregularRules(): array
+    public static function irregularRules(): array
     {
         return [
             'el'           => 'los',
@@ -69,7 +69,7 @@ class Es extends Inflector
      *
      * @return array
      */
-    public function uncountableRules(): array
+    public static function uncountableRules(): array
     {
         return [];
     }

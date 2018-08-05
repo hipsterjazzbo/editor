@@ -12,7 +12,7 @@ class Pt extends Inflector
      *
      * @return array
      */
-    public function pluralRules(): array
+    public static function pluralRules(): array
     {
         return [
             '/^(alem|c|p)ao$/iu'                                 => '\1aes',
@@ -41,7 +41,7 @@ class Pt extends Inflector
      *
      * @return array
      */
-    public function singularRules(): array
+    public static function singularRules(): array
     {
         return [
             '/^(g|)ases$/iu'                                      => '\1ás',
@@ -68,7 +68,7 @@ class Pt extends Inflector
      *
      * @return array
      */
-    public function irregularRules(): array
+    public static function irregularRules(): array
     {
         return [
             'abdomen'   => 'abdomens',
@@ -116,7 +116,7 @@ class Pt extends Inflector
      *
      * @return array
      */
-    public function uncountableRules(): array
+    public static function uncountableRules(): array
     {
         return [
             'tórax',

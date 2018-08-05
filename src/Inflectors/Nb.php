@@ -12,7 +12,7 @@ class Nb extends Inflector
      *
      * @return array
      */
-    public function pluralRules(): array
+    public static function pluralRules(): array
     {
         return [
             '/e$/iu' => 'er',
@@ -27,7 +27,7 @@ class Nb extends Inflector
      *
      * @return array
      */
-    public function singularRules(): array
+    public static function singularRules(): array
     {
         return [
             '/re$/iu' => 'r',
@@ -40,7 +40,7 @@ class Nb extends Inflector
      *
      * @return array
      */
-    public function irregularRules(): array
+    public static function irregularRules(): array
     {
         return [
             'konto' => 'konti',
@@ -52,7 +52,7 @@ class Nb extends Inflector
      *
      * @return array
      */
-    public function uncountableRules(): array
+    public static function uncountableRules(): array
     {
         return [
             'barn',

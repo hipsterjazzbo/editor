@@ -12,7 +12,7 @@ class Fr extends Inflector
      *
      * @return array
      */
-    public function pluralRules(): array
+    public static function pluralRules(): array
     {
         return [
             '/(s|x|z)$/'                                               => '\1',
@@ -31,7 +31,7 @@ class Fr extends Inflector
      *
      * @return array
      */
-    public function singularRules(): array
+    public static function singularRules(): array
     {
         return [
             '/(b|cor|ém|gemm|soupir|trav|vant|vitr)aux$/'               => '\1ail',
@@ -47,7 +47,7 @@ class Fr extends Inflector
      *
      * @return array
      */
-    public function irregularRules(): array
+    public static function irregularRules(): array
     {
         return [
             'monsieur'     => 'messieurs',
@@ -61,7 +61,7 @@ class Fr extends Inflector
      *
      * @return array
      */
-    public function uncountableRules(): array
+    public static function uncountableRules(): array
     {
         return [];
     }

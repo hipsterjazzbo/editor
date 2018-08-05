@@ -912,16 +912,16 @@ class Editor
      */
     protected function getInflector($language): Inflector
     {
-        $inflector = 'App\\Services\\Stringy\\Inflectors\\' . static::create($language)->studlyCase();
+        $inflector = 'Placemat\\Editor\\Inflectors\\' . static::create($language)->studlyCase();
 
         if ( ! class_exists($inflector)) {
             throw new InvalidArgumentException($language . ' is an unsupported language');
         }
 
-        $inflector = new $inflector;
+        $inflector = new $inflector($this->str, $this->encoding);
 
         if ( ! $inflector instanceof Inflector) {
-            throw new InvalidArgumentException($language . ' class found, but does not extend App\\Services\\Stringy\\Inflectors\\Inflector.');
+            throw new InvalidArgumentException($language . ' class found, but does not extend Placemat\\Editor\\Inflectors\\Inflector.');
         }
 
         return $inflector;
