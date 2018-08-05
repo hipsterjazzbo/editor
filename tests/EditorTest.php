@@ -145,6 +145,20 @@ class EditorTest extends TestCase
         $this->assertEquals(['hellö', 'world'], $split);
     }
 
+    public function testFirstWord()
+    {
+        $first = Editor::create($this->str)->firstWord();
+
+        $this->assertEquals('hellö', $first);
+    }
+
+    public function testLastWord()
+    {
+        $last = Editor::create($this->str)->lastWord();
+
+        $this->assertEquals('world', $last);
+    }
+
     public function testSlice()
     {
         $sliced = Editor::create($this->str)->slice(1, 9)->str();

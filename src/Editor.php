@@ -429,6 +429,28 @@ class Editor
     }
 
     /**
+     * Get the first word of $str
+     *
+     * @return Editor
+     */
+    public function firstWord(): self
+    {
+        return static::create($this->splitWords()[0]);
+    }
+
+    /**
+     * Get the last word of $str
+     *
+     * @return Editor
+     */
+    public function lastWord(): self
+    {
+        $words = $this->splitWords();
+
+        return static::create(end($words));
+    }
+
+    /**
      * Slice $str from $start, with optional $length
      *
      * @param int $start
