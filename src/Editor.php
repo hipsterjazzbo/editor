@@ -389,7 +389,7 @@ class Editor
      * @return Editor[]
      * @throws \Exception
      */
-    function chunk(int $chunkSize = 1): array
+    public function chunk(int $chunkSize = 1): array
     {
         if ($chunkSize == 0) {
             throw new \Exception(
