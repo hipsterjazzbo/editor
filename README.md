@@ -9,5 +9,5 @@
 [![License](https://poser.pugx.org/placemat/editor/license)](https://packagist.org/packages/placemat/editor)
 
 
-A clean, elegant, fluent, immutable, localisable string manipulation library for PHP 7.1+
+A clean, elegant, unicode-safe, fluent, immutable, localisable, dependency-free string manipulation library for PHP 7.1+
 
