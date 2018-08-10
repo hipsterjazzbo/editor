@@ -16,6 +16,20 @@ class EditorTest extends TestCase
         $this->assertInstanceOf(Editor::class, $str);
     }
 
+    public function testGetEncoding()
+    {
+        $encoding = Editor::create($this->str)->getEncoding();
+
+        $this->assertEquals('UTF-8', $encoding);
+    }
+
+    public function testSetEncoding()
+    {
+        $encoding = Editor::create($this->str)->setEncoding('coolencoding');
+
+        $this->assertEquals('coolencoding', $encoding->getEncoding());
+    }
+
     public function testStr()
     {
         $str = Editor::create($this->str)->str();
@@ -25,6 +39,10 @@ class EditorTest extends TestCase
 
     public function testAfter()
     {
+        $after = Editor::create($this->str)->after('')->str();
+
+        $this->assertEquals('hellö world', $after);
+
         $after = Editor::create($this->str)->after('ö')->str();
 
         $this->assertEquals(' world', $after);
@@ -32,6 +50,10 @@ class EditorTest extends TestCase
 
     public function testBefore()
     {
+        $before = Editor::create($this->str)->before('')->str();
+
+        $this->assertEquals('hellö world', $before);
+
         $before = Editor::create($this->str)->before('ö')->str();
 
         $this->assertEquals('hell', $before);
@@ -53,6 +75,10 @@ class EditorTest extends TestCase
 
     public function testLimitCharacters()
     {
+        $limited = Editor::create($this->str)->limitCharacters(100)->str();
+
+        $this->assertEquals('hellö world', $limited);
+
         $limited = Editor::create($this->str)->limitCharacters(6)->str();
 
         $this->assertEquals('hellö…', $limited);
@@ -63,16 +89,36 @@ class EditorTest extends TestCase
         $limited = Editor::create($this->str)->limitWords(1)->str();
 
         $this->assertEquals('hellö…', $limited);
+
+        $limited = Editor::create($this->str)->limitWords(100)->str();
+
+        $this->assertEquals('hellö world', $limited);
     }
 
     public function testPlural()
     {
-        $this->assertTrue(true);
+        $plural = Editor::create('apple')->plural()->str();
+
+        $this->assertEquals('apples', $plural);
+
+        $plural = Editor::create('apples')->plural()->str();
+
+        $this->assertEquals('apples', $plural);
+
+        $plural = Editor::create('apple')->plural(1)->str();
+
+        $this->assertEquals('apple', $plural);
     }
 
     public function testSingular()
     {
-        $this->assertTrue(true);
+        $singular = Editor::create('apples')->singular()->str();
+
+        $this->assertEquals('apple', $singular);
+
+        $singular = Editor::create('apple')->singular()->str();
+
+        $this->assertEquals('apple', $singular);
     }
 
     public function testReplace()
@@ -87,6 +133,14 @@ class EditorTest extends TestCase
         $replaced = Editor::create($this->str)->replaceFirst('l', 'w')->str();
 
         $this->assertEquals('hewlö world', $replaced);
+
+        $replaced = Editor::create($this->str)->replaceFirst('not there', '999')->str();
+
+        $this->assertEquals('hellö world', $replaced);
+
+        $replaced = Editor::create($this->str)->replaceFirst('', '999')->str();
+
+        $this->assertEquals('hellö world', $replaced);
     }
 
     public function testReplaceLast()
@@ -94,6 +148,14 @@ class EditorTest extends TestCase
         $replaced = Editor::create($this->str)->replaceLast('l', 'w')->str();
 
         $this->assertEquals('hellö worwd', $replaced);
+
+        $replaced = Editor::create($this->str)->replaceLast('not there', '999')->str();
+
+        $this->assertEquals('hellö world', $replaced);
+
+        $replaced = Editor::create($this->str)->replaceLast('', '999')->str();
+
+        $this->assertEquals('hellö world', $replaced);
     }
 
     public function testReplaceSub()
@@ -101,6 +163,10 @@ class EditorTest extends TestCase
         $replaced = Editor::create($this->str)->replaceSub('💩', 0, 2)->str();
 
         $this->assertEquals('💩llö world', $replaced);
+
+        $replaced = Editor::create($this->str)->replaceSub('💩', 0)->str();
+
+        $this->assertEquals('💩', $replaced);
     }
 
     public function testRemove()
@@ -136,6 +202,14 @@ class EditorTest extends TestCase
         $chunk = Editor::create($this->str)->chunk(2);
 
         $this->assertEquals(['he', 'll', 'ö ', 'wo', 'rl', 'd'], $chunk);
+
+        $chunk = Editor::create('')->chunk(2);
+
+        $this->assertEquals([''], $chunk);
+
+        $this->expectException(\Exception::class);
+
+        $chunk = Editor::create($this->str)->chunk(0);
     }
 
     public function testSplitWords()
@@ -208,6 +282,10 @@ class EditorTest extends TestCase
 
     public function testMatches()
     {
+        $matches = Editor::create($this->str)->matches('hellö world');
+
+        $this->assertTrue($matches);
+
         $matches = Editor::create($this->str)->matches('*ö world');
 
         $this->assertTrue($matches);
@@ -313,6 +391,10 @@ class EditorTest extends TestCase
         $ascii = Editor::create($this->str)->ascii()->str();
 
         $this->assertEquals('hello world', $ascii);
+
+        $ascii = Editor::create($this->str . 'ä')->ascii('de')->str();
+
+        $this->assertEquals('helloe worldae', $ascii);
     }
 
     public function titleCaseProvider()
@@ -322,16 +404,37 @@ class EditorTest extends TestCase
             ['testing the method', 'Testing the Method'],
             ['i like to watch DVDs at home', 'I Like to watch DVDs at Home', ['watch']],
             ['  Θα ήθελα να φύγει  ', 'Θα Ήθελα Να Φύγει', []],
-            ['For step-by-step directions email someone@gmail.com', 'For Step-by-Step Directions Email someone@gmail.com'],
-            ["2lmc Spool: 'Gruber on OmniFocus and Vapo(u)rware'", "2lmc Spool: 'Gruber on OmniFocus and Vapo(u)rware'"],
+            [
+                'For step-by-step directions email someone@gmail.com',
+                'For Step-by-Step Directions Email someone@gmail.com',
+            ],
+            [
+                "2lmc Spool: 'Gruber on OmniFocus and Vapo(u)rware'",
+                "2lmc Spool: 'Gruber on OmniFocus and Vapo(u)rware'",
+            ],
             ['Have you read “The Lottery”?', 'Have You Read “The Lottery”?'],
             ['your hair[cut] looks (nice)', 'Your Hair[cut] Looks (Nice)'],
-            ["People probably won't put http://foo.com/bar/ in titles", "People Probably Won't Put http://foo.com/bar/ in Titles"],
-            ['Scott Moritz and TheStreet.com’s million iPhone la‑la land', 'Scott Moritz and TheStreet.com’s Million iPhone La‑La Land'],
+            [
+                "People probably won't put http://foo.com/bar/ in titles",
+                "People Probably Won't Put http://foo.com/bar/ in Titles",
+            ],
+            [
+                'Scott Moritz and TheStreet.com’s million iPhone la‑la land',
+                'Scott Moritz and TheStreet.com’s Million iPhone La‑La Land',
+            ],
             ['BlackBerry vs. iPhone', 'BlackBerry vs. iPhone'],
-            ['Notes and observations regarding Apple’s announcements from ‘The Beat Goes On’ special event', 'Notes and Observations Regarding Apple’s Announcements From ‘The Beat Goes On’ Special Event'],
-            ['Read markdown_rules.txt to find out how _underscores around words_ will be interpretted', 'Read markdown_rules.txt to Find Out How _Underscores Around Words_ Will Be Interpretted'],
-            ["Q&A with Steve Jobs: 'That's what happens in technology'", "Q&A with Steve Jobs: 'That's What Happens in Technology'"],
+            [
+                'Notes and observations regarding Apple’s announcements from ‘The Beat Goes On’ special event',
+                'Notes and Observations Regarding Apple’s Announcements From ‘The Beat Goes On’ Special Event',
+            ],
+            [
+                'Read markdown_rules.txt to find out how _underscores around words_ will be interpretted',
+                'Read markdown_rules.txt to Find Out How _Underscores Around Words_ Will Be Interpretted',
+            ],
+            [
+                "Q&A with Steve Jobs: 'That's what happens in technology'",
+                "Q&A with Steve Jobs: 'That's What Happens in Technology'",
+            ],
             ["What is AT&T's problem?", "What Is AT&T's Problem?"],
             ['Apple deal with AT&T falls through', 'Apple Deal with AT&T Falls Through'],
             ['this v that', 'This v That'],
@@ -339,20 +442,40 @@ class EditorTest extends TestCase
             ['this v. that', 'This v. That'],
             ['this vs. that', 'This vs. That'],
             ["The SEC's Apple probe: what you need to know", "The SEC's Apple Probe: What You Need to Know"],
-            ["'by the way, small word at the start but within quotes.'", "'By the Way, Small Word at the Start but Within Quotes.'"],
+            [
+                "'by the way, small word at the start but within quotes.'",
+                "'By the Way, Small Word at the Start but Within Quotes.'",
+            ],
             ['Small word at end is nothing to be afraid of', 'Small Word at End Is Nothing to Be Afraid Of'],
-            ['Starting sub-phrase with a small word: a trick, perhaps?', 'Starting Sub-Phrase with a Small Word: A Trick, Perhaps?'],
-            ["Sub-phrase with a small word in quotes: 'a trick, perhaps?'", "Sub-Phrase with a Small Word in Quotes: 'A Trick, Perhaps?'"],
-            ['Sub-phrase with a small word in quotes: "a trick, perhaps?"', 'Sub-Phrase with a Small Word in Quotes: "A Trick, Perhaps?"'],
+            [
+                'Starting sub-phrase with a small word: a trick, perhaps?',
+                'Starting Sub-Phrase with a Small Word: A Trick, Perhaps?',
+            ],
+            [
+                "Sub-phrase with a small word in quotes: 'a trick, perhaps?'",
+                "Sub-Phrase with a Small Word in Quotes: 'A Trick, Perhaps?'",
+            ],
+            [
+                'Sub-phrase with a small word in quotes: "a trick, perhaps?"',
+                'Sub-Phrase with a Small Word in Quotes: "A Trick, Perhaps?"',
+            ],
             ['"Nothing to Be Afraid of?"', '"Nothing to Be Afraid Of?"'],
             ['a thing', 'A Thing'],
-            ['Dr. Strangelove (or: how I Learned to Stop Worrying and Love the Bomb)', 'Dr. Strangelove (Or: How I Learned to Stop Worrying and Love the Bomb)'],
+            [
+                'Dr. Strangelove (or: how I Learned to Stop Worrying and Love the Bomb)',
+                'Dr. Strangelove (Or: How I Learned to Stop Worrying and Love the Bomb)',
+            ],
             ['  this is trimming', 'This Is Trimming'],
             ['this is trimming  ', 'This Is Trimming'],
             ['  this is trimming  ', 'This Is Trimming'],
             ['IF IT’S ALL CAPS, FIX IT', 'If It’s All Caps, Fix It'],
             ['What could/should be done about slashes?', 'What Could/Should Be Done About Slashes?'],
-            ['Never touch paths like /var/run before/after /boot', 'Never Touch Paths Like /var/run Before/After /boot'],
+            [
+                'Never touch paths like /var/run before/after /boot',
+                'Never Touch Paths Like /var/run Before/After /boot',
+            ],
+            ['everyone loves in-flight wifi', 'Everyone Loves In-Flight Wifi'],
+            ['flowers are not a stand-in for attention', 'Flowers Are Not a Stand-In for Attention'],
         ];
     }
 }

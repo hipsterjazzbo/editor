@@ -208,7 +208,7 @@ class Editor
      */
     public function plural(float $count = 2, string $language = 'en'): self
     {
-        if ($count === 1) {
+        if ($count == 1) {
             return $this->singular($language);
         }
 
@@ -254,9 +254,13 @@ class Editor
      */
     public function replaceFirst(string $search, string $replacement): self
     {
+        if ($search === '') {
+            return $this;
+        }
+
         $start = mb_strpos($this->str, $search);
 
-        if ($search === '' || $start === false) {
+        if ($start === false) {
             return $this;
         }
 
@@ -391,7 +395,7 @@ class Editor
      */
     public function chunk(int $chunkSize = 1): array
     {
-        if ($chunkSize == 0) {
+        if ($chunkSize <= 0) {
             throw new \Exception(
                 'The length of each segment must be greater than zero'
             );
@@ -848,10 +852,6 @@ class Editor
      */
     public function snakeCase(string $delimiter = '_'): self
     {
-        if (ctype_lower($this->str)) {
-            return $this;
-        }
-
         $str = preg_replace('/\s+/u', '', $this->upperCaseWords());
 
         $str = preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $str);
@@ -888,7 +888,9 @@ class Editor
         $languageSpecific = static::languageSpecificCharsArray($language);
 
         if ( ! is_null($languageSpecific)) {
-            $str = $str->replace($languageSpecific[0], $languageSpecific[1]);
+            foreach ($languageSpecific as $search => $replace) {
+                $str = $str->replace($search, $replace);
+            }
         }
 
         foreach (static::charsArray() as $safeChar => $unsafeChars) {
@@ -1081,12 +1083,22 @@ class Editor
         if ( ! isset($languageSpecific)) {
             $languageSpecific = [
                 'bg' => [
-                    ['х', 'Х', 'щ', 'Щ', 'ъ', 'Ъ', 'ь', 'Ь'],
-                    ['h', 'H', 'sht', 'SHT', 'a', 'А', 'y', 'Y'],
+                    'х' => 'h',
+                    'Х' => 'H',
+                    'щ' => 'sht',
+                    'Щ' => 'SHT',
+                    'ъ' => 'a',
+                    'Ъ' => 'А',
+                    'ь' => 'y',
+                    'Ь' => 'Y',
                 ],
                 'de' => [
-                    ['ä', 'ö', 'ü', 'Ä', 'Ö', 'Ü'],
-                    ['ae', 'oe', 'ue', 'AE', 'OE', 'UE'],
+                    'ä' => 'ae',
+                    'ö' => 'oe',
+                    'ü' => 'ue',
+                    'Ä' => 'AE',
+                    'Ö' => 'OE',
+                    'Ü' => 'UE',
                 ],
             ];
         }

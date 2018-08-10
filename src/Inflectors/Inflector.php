@@ -119,9 +119,9 @@ abstract class Inflector
      */
     protected function inflect(&$cache, $inflectionRules, $irregularRules)
     {
-        if (array_key_exists($this->str, $cache)) {
-            return $cache[$this->str];
-        }
+        //if (array_key_exists($this->str, $cache)) {
+        //    return $cache[$this->str];
+        //}
 
         if ($this->isUncountable()) {
             return $this->str;
