@@ -922,10 +922,6 @@ class Editor
 
         $inflector = new $inflector($this->str, $this->encoding);
 
-        if ( ! $inflector instanceof Inflector) {
-            throw new InvalidArgumentException($language . ' class found, but does not extend Placemat\\Editor\\Inflectors\\Inflector.');
-        }
-
         return $inflector;
     }
 

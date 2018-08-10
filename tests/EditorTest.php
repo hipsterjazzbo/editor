@@ -108,6 +108,10 @@ class EditorTest extends TestCase
         $plural = Editor::create('apple')->plural(1)->str();
 
         $this->assertEquals('apple', $plural);
+
+        $this->expectException(\InvalidArgumentException::class);
+
+        $plural = Editor::create('apple')->plural(2, 'balls')->str();
     }
 
     public function testSingular()
