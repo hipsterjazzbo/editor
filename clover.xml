@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1533869079">
-  <project timestamp="1533869079">
+<coverage generated="1533953458">
+  <project timestamp="1533953458">
     <package name="Placemat\Editor">
       <file name="/Users/caleb/Code/packages/editor/src/Editor.php">
         <class name="Placemat\Editor\Editor" namespace="Placemat\Editor">
-          <metrics complexity="94" methods="54" coveredmethods="53" conditionals="0" coveredconditionals="0" statements="198" coveredstatements="196" elements="252" coveredelements="249"/>
+          <metrics complexity="93" methods="54" coveredmethods="54" conditionals="0" coveredconditionals="0" statements="196" coveredstatements="196" elements="250" coveredelements="250"/>
         </class>
         <line num="26" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="79"/>
         <line num="28" type="stmt" count="79"/>
@@ -254,27 +254,25 @@
         <line num="898" type="stmt" count="2"/>
         <line num="902" type="stmt" count="2"/>
         <line num="904" type="stmt" count="2"/>
-        <line num="915" type="method" name="getInflector" visibility="protected" complexity="3" crap="3.21" count="2"/>
+        <line num="915" type="method" name="getInflector" visibility="protected" complexity="2" crap="2" count="2"/>
         <line num="917" type="stmt" count="2"/>
         <line num="919" type="stmt" count="2"/>
-        <line num="920" type="stmt" count="0"/>
+        <line num="920" type="stmt" count="1"/>
         <line num="923" type="stmt" count="2"/>
         <line num="925" type="stmt" count="2"/>
-        <line num="926" type="stmt" count="0"/>
-        <line num="929" type="stmt" count="2"/>
-        <line num="941" type="method" name="charsArray" visibility="protected" complexity="2" crap="2" count="2"/>
-        <line num="943" type="stmt" count="2"/>
-        <line num="945" type="stmt" count="2"/>
-        <line num="946" type="stmt" count="1"/>
-        <line num="951" type="stmt" count="1"/>
-        <line num="1079" type="method" name="languageSpecificCharsArray" visibility="protected" complexity="2" crap="2" count="2"/>
-        <line num="1081" type="stmt" count="2"/>
-        <line num="1083" type="stmt" count="2"/>
-        <line num="1085" type="stmt" count="1"/>
-        <line num="1106" type="stmt" count="2"/>
-        <metrics loc="1108" ncloc="694" classes="1" methods="54" coveredmethods="53" conditionals="0" coveredconditionals="0" statements="212" coveredstatements="210" elements="266" coveredelements="263"/>
+        <line num="937" type="method" name="charsArray" visibility="protected" complexity="2" crap="2" count="2"/>
+        <line num="939" type="stmt" count="2"/>
+        <line num="941" type="stmt" count="2"/>
+        <line num="942" type="stmt" count="1"/>
+        <line num="947" type="stmt" count="1"/>
+        <line num="1075" type="method" name="languageSpecificCharsArray" visibility="protected" complexity="2" crap="2" count="2"/>
+        <line num="1077" type="stmt" count="2"/>
+        <line num="1079" type="stmt" count="2"/>
+        <line num="1081" type="stmt" count="1"/>
+        <line num="1102" type="stmt" count="2"/>
+        <metrics loc="1104" ncloc="690" classes="1" methods="54" coveredmethods="54" conditionals="0" coveredconditionals="0" statements="210" coveredstatements="210" elements="264" coveredelements="264"/>
       </file>
     </package>
-    <metrics files="1" loc="1108" ncloc="694" classes="1" methods="54" coveredmethods="53" conditionals="0" coveredconditionals="0" statements="212" coveredstatements="210" elements="266" coveredelements="263"/>
+    <metrics files="1" loc="1104" ncloc="690" classes="1" methods="54" coveredmethods="54" conditionals="0" coveredconditionals="0" statements="210" coveredstatements="210" elements="264" coveredelements="264"/>
   </project>
 </coverage>
