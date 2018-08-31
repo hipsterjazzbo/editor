@@ -33,7 +33,7 @@ class En extends Inflector
             '/(alias|status)$/iu'                   => '\1es',
             '/^(ax|test)is$/iu'                     => '\1es',
             '/s$/iu'                                => 's',
-            '/$/'                                  => 's',
+            '/$/'                                   => 's',
         ];
     }
 
@@ -95,6 +95,8 @@ class En extends Inflector
             'zombie'  => 'zombies',
             'goose'   => 'geese',
             'genus'   => 'genera',
+            'olive'   => 'olives',
+            'clove'   => 'cloves',
         ];
     }
 
