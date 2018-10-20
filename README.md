@@ -130,7 +130,7 @@ s('bijou')->plural($count, 'fr'); // 'bijoux'
 >
 > - It must extend `Placemat\Editor\Inflectors\Inflector`
 > - It must be in the `Placemat\Editor\Inflectors` namespace
-> - It must be named for the two-letter iso language code, e.g. English -> `En`
+> - It must be named for the two-letter ISO language code, e.g. English -> `En`
 >
 > If you do add inflectors, feel free to open a Pull Request!
 
