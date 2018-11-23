@@ -472,13 +472,13 @@ class Editor
     /**
      * Trim characters from $charList from the beginning and end of $str
      *
-     * @param string $charlist
+     * @param string $charList
      *
      * @return Editor
      */
-    public function trim($charlist = " \t\n\r\0\x0B"): self
+    public function trim($charList = " \t\n\r\0\x0B"): self
     {
-        $str = trim($this->str, $charlist);
+        $str = trim($this->str, $charList);
 
         return static::create($str);
     }
