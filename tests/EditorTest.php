@@ -16,6 +16,13 @@ class EditorTest extends TestCase
         $this->assertInstanceOf(Editor::class, $str);
     }
 
+    public function testCreateFromArray()
+    {
+        $str = Editor::createFromArray(['one', 'two', 'three'], '.')->str();
+
+        $this->assertEquals('one.two.three', $str);
+    }
+
     public function testGetEncoding()
     {
         $encoding = Editor::create($this->str)->getEncoding();

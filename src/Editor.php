@@ -43,6 +43,26 @@ class Editor
     }
 
     /**
+     * Create a new instance of Editor from an array of strings, joined by $separator and trimmed.
+     *
+     * @param array $strs
+     * @param string $separator
+     * @param string $encoding
+     *
+     * @return Editor
+     */
+    public static function createFromArray(array $strs, string $separator = ' ', string $encoding = 'UTF-8'): self
+    {
+        $strs = array_map(function ($str) use ($encoding) {
+            return static::create($str, $encoding)->trim();
+        }, $strs);
+
+        $str = implode($separator, $strs);
+
+        return static::create($str, $encoding)->trim();
+    }
+
+    /**
      * Get the encoding that's being used
      *
      * @return string
