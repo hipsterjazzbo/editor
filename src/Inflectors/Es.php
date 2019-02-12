@@ -8,6 +8,16 @@ namespace Placemat\Editor\Inflectors;
 class Es extends Inflector
 {
     /**
+     * Return the ISO-639 two-letter language code
+     *
+     * @return string
+     */
+    static public function getLanguageCode(): string
+    {
+        return 'es';
+    }
+
+    /**
      * Return an array of pluralization rules, from most to least specific, in the form $rule => $replacement
      *
      * @return array

@@ -3,19 +3,31 @@
 namespace Placemat\Editor;
 
 use InvalidArgumentException;
-use Placemat\Editor\Inflectors\Inflector;
+use Placemat\Editor\Inflectors;
 
 class Editor
 {
     /**
      * @var string
      */
-    private $str;
+    protected $str;
 
     /**
      * @var string
      */
-    private $encoding;
+    protected $encoding;
+
+    /**
+     * @var array
+     */
+    protected static $inflectors = [
+        'en' => Inflectors\En::class,
+        'es' => Inflectors\Es::class,
+        'fr' => Inflectors\Fr::class,
+        'nb' => Inflectors\Nb::class,
+        'pt' => Inflectors\Pt::class,
+        'tr' => Inflectors\Tr::class,
+    ];
 
     /**
      * Editor constructor.
@@ -25,7 +37,8 @@ class Editor
      */
     public function __construct(string $str, string $encoding = 'UTF-8')
     {
-        $this->str      = $str;
+        $this->str = $str;
+
         $this->encoding = $encoding;
     }
 
@@ -186,7 +199,7 @@ class Editor
             return $this;
         }
 
-        // Make sure the final string will fit withing the limit even with the suffix
+        // Make sure the final string will fit within the limit even with the suffix
         $trimLength = $characters - static::create($suffix)->length();
 
         $str = rtrim(mb_strimwidth($this->str, 0, $trimLength, '', 'UTF-8')) . $suffix;
@@ -880,7 +893,7 @@ class Editor
     }
 
     /**
-     * Transform $str to snake-case
+     * Transform $str to kebab-case
      *
      * @return Editor
      * @throws \Exception
@@ -893,19 +906,21 @@ class Editor
     /////////////////////////////////////////
     /// Utilities
     /////////////////////////////////////////
-
+    
     /**
      * Transform $str to be ascii-safe
      *
-     * @param string $language
+     * @param string $languageCode
      *
      * @return Editor
      */
-    public function ascii(string $language = 'en'): self
+    public function ascii(string $languageCode = 'en'): self
     {
         $str = $this;
 
-        $languageSpecific = static::languageSpecificCharsArray($language);
+        $languageCode = static::processLanguageCode($languageCode);
+
+        $languageSpecific = static::languageSpecificCharsArray($languageCode);
 
         if ( ! is_null($languageSpecific)) {
             foreach ($languageSpecific as $search => $replace) {
@@ -927,22 +942,36 @@ class Editor
     /**
      * Gets the Inflector for $language, if one exists.
      *
-     * @param string $language
+     * @param string $languageCode
      *
-     * @return Inflector
+     * @return Inflectors\Inflector
      * @throws \Exception
      */
-    protected function getInflector($language): Inflector
+    protected function getInflector($languageCode): Inflectors\Inflector
     {
-        $inflector = 'Placemat\\Editor\\Inflectors\\' . static::create($language)->studlyCase();
+        $languageCode = static::processLanguageCode($languageCode);
 
-        if ( ! class_exists($inflector)) {
-            throw new InvalidArgumentException($language . ' is an unsupported language');
+        if ($inflector = static::$inflectors[$languageCode]) {
+            if (class_exists($inflector)) {
+                $inflector = new $inflector($this->str, $this->encoding);
+
+                return $inflector;
+            }
         }
 
-        $inflector = new $inflector($this->str, $this->encoding);
+        throw new InvalidArgumentException($languageCode . ' is an unsupported language');
+    }
 
-        return $inflector;
+    /**
+     * Registers a new inflector
+     *
+     * @param Inflectors\Inflector $inflector
+     */
+    public static function registerInflector(Inflectors\Inflector $inflector): void
+    {
+        $languageCode = static::processLanguageCode($inflector::getLanguageCode());
+
+        static::$inflectors[$languageCode] = get_class($inflector);
     }
 
     /**
@@ -954,7 +983,7 @@ class Editor
      *
      * @return array
      */
-    protected static function charsArray()
+    protected static function charsArray(): array
     {
         static $charsArray;
 
@@ -1088,11 +1117,11 @@ class Editor
      *
      * @see https://github.com/danielstjules/Stringy/blob/3.1.0/LICENSE.txt
      *
-     * @param  string $language
+     * @param  string $languageCode
      *
      * @return array|null
      */
-    protected static function languageSpecificCharsArray($language)
+    protected static function languageSpecificCharsArray($languageCode): ?array
     {
         static $languageSpecific;
 
@@ -1119,6 +1148,20 @@ class Editor
             ];
         }
 
-        return $languageSpecific[$language] ?? null;
+        $languageCode = static::processLanguageCode($languageCode);
+
+        return $languageSpecific[$languageCode] ?? null;
+    }
+
+    /**
+     * @param string $languageCode
+     *
+     * @return string
+     */
+    protected static function processLanguageCode(string $languageCode): string
+    {
+        return static::create($languageCode)
+                     ->lowerCase()
+                     ->str();
     }
 }

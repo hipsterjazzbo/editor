@@ -126,11 +126,11 @@ Inflections are localizable in Editor. Right now, Editor supports 6 languages:
 s('bijou')->plural($count, 'fr'); // 'bijoux'
 ```
 
-> If you'd like to add an inflector, there are a few requirements:
+> If you'd like to add an inflector, simply
 >
-> - It must extend `Placemat\Editor\Inflectors\Inflector`
-> - It must be in the `Placemat\Editor\Inflectors` namespace
-> - It must be named for the [two-letter ISO language code](https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes), e.g. English -> `En`
+> - Extend `Placemat\Editor\Inflectors\Inflector`
+> - Register with `Editor::registerInflector($inflector)`
+> - That's it!
 >
 > If you do add inflectors, feel free to open a Pull Request!
 
