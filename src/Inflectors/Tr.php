@@ -1,6 +1,6 @@
 <?php
 
-namespace Placemat\Editor\Inflectors;
+namespace Hipsterjazzbo\Editor\Inflectors;
 
 /**
  * Turkish inflection rules.

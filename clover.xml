@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <coverage generated="1533953458">
   <project timestamp="1533953458">
-    <package name="Placemat\Editor">
+    <package name="Hipsterjazzbo\Editor">
       <file name="/Users/caleb/Code/packages/editor/src/Editor.php">
-        <class name="Placemat\Editor\Editor" namespace="Placemat\Editor">
+        <class name="Hipsterjazzbo\Editor\Editor" namespace="Hipsterjazzbo\Editor">
           <metrics complexity="93" methods="54" coveredmethods="54" conditionals="0" coveredconditionals="0" statements="196" coveredstatements="196" elements="250" coveredelements="250"/>
         </class>
         <line num="26" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="79"/>

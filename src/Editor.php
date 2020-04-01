@@ -1,9 +1,9 @@
 <?php
 
-namespace Placemat\Editor;
+namespace Hipsterjazzbo\Editor;
 
 use InvalidArgumentException;
-use Placemat\Editor\Inflectors;
+use Hipsterjazzbo\Editor\Inflectors;
 
 class Editor
 {
@@ -906,7 +906,7 @@ class Editor
     /////////////////////////////////////////
     /// Utilities
     /////////////////////////////////////////
-    
+
     /**
      * Transform $str to be ascii-safe
      *
@@ -950,6 +950,10 @@ class Editor
     protected function getInflector($languageCode): Inflectors\Inflector
     {
         $languageCode = static::processLanguageCode($languageCode);
+
+        if (!array_key_exists($languageCode, static::$inflectors)) {
+            throw new \InvalidArgumentException('No such language "'.$languageCode.'"');
+        }
 
         if ($inflector = static::$inflectors[$languageCode]) {
             if (class_exists($inflector)) {

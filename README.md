@@ -128,7 +128,7 @@ s('bijou')->plural($count, 'fr'); // 'bijoux'
 
 > If you'd like to add an inflector, simply
 >
-> - Extend `Placemat\Editor\Inflectors\Inflector`
+> - Extend `Hipsterjazzbo\Editor\Inflectors\Inflector`
 > - Register with `Editor::registerInflector($inflector)`
 > - That's it!
 >

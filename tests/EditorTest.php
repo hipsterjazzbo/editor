@@ -1,9 +1,9 @@
 <?php /** @noinspection ALL */
 
-namespace Placemat\Editor\Tests;
+namespace Hipsterjazzbo\Editor\Tests;
 
 use PHPUnit\Framework\TestCase;
-use Placemat\Editor\Editor;
+use Hipsterjazzbo\Editor\Editor;
 
 class EditorTest extends TestCase
 {

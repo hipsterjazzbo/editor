@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Placemat\\Editor\\": "src/"
+            "Hipsterjazzbo\\Editor\\": "src/"
         },
         "files": [
             "src/helpers.php"

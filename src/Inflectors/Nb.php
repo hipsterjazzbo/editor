@@ -1,6 +1,6 @@
 <?php
 
-namespace Placemat\Editor\Inflectors;
+namespace Hipsterjazzbo\Editor\Inflectors;
 
 /**
  * Norwegian Bokmal inflection rules.

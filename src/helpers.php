@@ -1,6 +1,6 @@
 <?php
 
-use Placemat\Editor\Editor;
+use Hipsterjazzbo\Editor\Editor;
 
 if ( ! function_exists('s')) {
     /**
