@@ -154,6 +154,32 @@ class Editor
     }
 
     /**
+     * Prepend $str
+     *
+     * @param string $str
+     * @param string $joinedBy
+     *
+     * @return $this
+     */
+    public function prepend(string $str, string $joinedBy = ''): self
+    {
+        return new static($str.$joinedBy.$this->str);
+    }
+
+    /**
+     * Append $str
+     *
+     * @param string $str
+     * @param string $joinedBy
+     *
+     * @return $this
+     */
+    public function append(string $str, string $joinedBy = ''): self
+    {
+        return new static($this->str.$joinedBy.$str);
+    }
+
+    /**
      * Prepend $prefix to $str
      *
      * @param string $prefix
