@@ -164,7 +164,7 @@ class Editor
     {
         $quoted = preg_quote($prefix, '/');
 
-        $str = $prefix . preg_replace('/^(?:' . $quoted . ')+/u', '', $this->str);
+        $str = $prefix.preg_replace('/^(?:'.$quoted.')+/u', '', $this->str);
 
         return static::create($str);
     }
@@ -180,7 +180,7 @@ class Editor
     {
         $quoted = preg_quote($suffix, '/');
 
-        $str = preg_replace('/(?:' . $quoted . ')+$/u', '', $this->str) . $suffix;
+        $str = preg_replace('/(?:'.$quoted.')+$/u', '', $this->str).$suffix;
 
         return static::create($str);
     }
@@ -202,7 +202,7 @@ class Editor
         // Make sure the final string will fit within the limit even with the suffix
         $trimLength = $characters - static::create($suffix)->length();
 
-        $str = rtrim(mb_strimwidth($this->str, 0, $trimLength, '', 'UTF-8')) . $suffix;
+        $str = rtrim(mb_strimwidth($this->str, 0, $trimLength, '', 'UTF-8')).$suffix;
 
         return static::create($str);
     }
@@ -219,13 +219,13 @@ class Editor
     {
         $matches = [];
 
-        preg_match('/^\s*+(?:\S++\s*+){1,' . $words . '}/u', $this->str, $matches);
+        preg_match('/^\s*+(?:\S++\s*+){1,'.$words.'}/u', $this->str, $matches);
 
-        if ( ! isset($matches[0]) || mb_strlen($this->str) === mb_strlen($matches[0])) {
+        if (! isset($matches[0]) || mb_strlen($this->str) === mb_strlen($matches[0])) {
             return $this;
         }
 
-        $str = rtrim($matches[0]) . $suffix;
+        $str = rtrim($matches[0]).$suffix;
 
         return static::create($str);
     }
@@ -401,19 +401,19 @@ class Editor
         // Convert all dashes/underscores into $separator
         $flip = $separator === '-' ? '_' : '-';
 
-        $str = preg_replace('![' . preg_quote($flip) . ']+!u', $separator, $str);
+        $str = preg_replace('!['.preg_quote($flip).']+!u', $separator, $str);
 
         // Replace @ with the word 'at'
-        $str = str_replace('@', $separator . 'at' . $separator, $str);
+        $str = str_replace('@', $separator.'at'.$separator, $str);
 
         // Lowercase it
         $str = static::create($str)->lowerCase()->str();
 
         // Remove all characters that are not the separator, letters, numbers, or whitespace.
-        $str = preg_replace('![^' . preg_quote($separator) . '\pL\pN\s]+!u', '', $str);
+        $str = preg_replace('![^'.preg_quote($separator).'\pL\pN\s]+!u', '', $str);
 
         // Replace all separator characters and whitespace by a single separator
-        $str = preg_replace('![' . preg_quote($separator) . '\s]+!u', $separator, $str);
+        $str = preg_replace('!['.preg_quote($separator).'\s]+!u', $separator, $str);
 
         return static::create($str)->trim($separator);
     }
@@ -583,7 +583,7 @@ class Editor
         // pattern such as "library/*", making any string check convenient.
         $pattern = str_replace('\*', '.*', $pattern);
 
-        return preg_match('#^' . $pattern . '\z#u', $this->str) === 1;
+        return preg_match('#^'.$pattern.'\z#u', $this->str) === 1;
     }
 
     /**
@@ -619,7 +619,7 @@ class Editor
      */
     public function lowerCaseFirst(): self
     {
-        $str = $this->slice(0, 1)->lowerCase() . $this->slice(1);
+        $str = $this->slice(0, 1)->lowerCase().$this->slice(1);
 
         return static::create($str);
     }
@@ -676,7 +676,7 @@ class Editor
      */
     public function upperCaseFirst(): self
     {
-        $str = $this->slice(0, 1)->upperCase() . $this->slice(1);
+        $str = $this->slice(0, 1)->upperCase().$this->slice(1);
 
         return static::create($str);
     }
@@ -761,13 +761,13 @@ class Editor
         $str = preg_replace_callback(
             '~\b (_*) (?:                                                          # 1. Leading underscore and
                         ( (?<=[ ][/\\\\]) [[:alpha:]]+ [-_[:alpha:]/\\\\]+ |              # 2. file path or 
-                          [-_[:alpha:]]+ [@.:] [-_[:alpha:]@.:/]+ ' . $apostropheRx . ' ) #    URL, domain, or email
+                          [-_[:alpha:]]+ [@.:] [-_[:alpha:]@.:/]+ '.$apostropheRx.' ) #    URL, domain, or email
                         |
-                        ( (?i: ' . $smallWordsRx . ' ) ' . $apostropheRx . ' )             # 3. or small word (case-insensitive)
+                        ( (?i: '.$smallWordsRx.' ) '.$apostropheRx.' )             # 3. or small word (case-insensitive)
                         |
-                        ( [[:alpha:]] [[:lower:]\'’()\[\]{}]* ' . $apostropheRx . ' )     # 4. or word w/o internal caps
+                        ( [[:alpha:]] [[:lower:]\'’()\[\]{}]* '.$apostropheRx.' )     # 4. or word w/o internal caps
                         |
-                        ( [[:alpha:]] [[:alpha:]\'’()\[\]{}]* ' . $apostropheRx . ' )     # 5. or some other word
+                        ( [[:alpha:]] [[:alpha:]\'’()\[\]{}]* '.$apostropheRx.' )     # 5. or some other word
                       ) (_*) \b                                                            # 6. With trailing underscore
                     ~ux',
             function ($matches) {
@@ -799,17 +799,17 @@ class Editor
             '~(  \A [[:punct:]]*           # start of title...
                       |  [:.;?!][ ]+               # or of sub-sentence...
                       |  [ ][\'"“‘(\[][ ]* )       # or of inserted sub-phrase...
-                      ( ' . $smallWordsRx . ' ) \b # ...followed by small word
+                      ( '.$smallWordsRx.' ) \b # ...followed by small word
                      ~uxi',
             function ($matches) {
-                return $matches[1] . static::create($matches[2])->upperCaseFirst();
+                return $matches[1].static::create($matches[2])->upperCaseFirst();
             },
             $str
         );
 
         // ...and end of title
         $str = preg_replace_callback(
-            '~\b ( ' . $smallWordsRx . ' ) # small word...
+            '~\b ( '.$smallWordsRx.' ) # small word...
                       (?= [[:punct:]]* \Z          # ...at the end of the title...
                       |   [\'"’”)\]] [ ] )         # ...or of an inserted sub-phrase?
                      ~uxi',
@@ -824,7 +824,7 @@ class Editor
         $str = preg_replace_callback(
             '~\b
                         (?<! -)                   # Negative lookbehind for a hyphen; we do not want to match man-in-the-middle but do want (in-flight)
-                        ( ' . $smallWordsRx . ' )
+                        ( '.$smallWordsRx.' )
                         (?= -[[:alpha:]]+)        # lookahead for "-someword"
                        ~uxi',
             function ($matches) {
@@ -838,11 +838,11 @@ class Editor
             '~\b
                       (?<!…)                    # Negative lookbehind for a hyphen; we do not want to match man-in-the-middle but do want (stand-in)
                       ( [[:alpha:]]+- )         # $1 = first word and hyphen, should already be properly capped
-                      ( ' . $smallWordsRx . ' ) # ...followed by small word
+                      ( '.$smallWordsRx.' ) # ...followed by small word
                       (?!	- )                 # Negative lookahead for another -
                      ~uxi',
             function ($matches) {
-                return $matches[1] . static::create($matches[2])->upperCaseFirst();
+                return $matches[1].static::create($matches[2])->upperCaseFirst();
             },
             $str
         );
@@ -870,9 +870,9 @@ class Editor
     public function studlyCase(): self
     {
         return $this->replace('-', ' ')
-                    ->replace('_', ' ')
-                    ->upperCaseWords()
-                    ->remove(' ');
+            ->replace('_', ' ')
+            ->upperCaseWords()
+            ->remove(' ');
     }
 
     /**
@@ -887,7 +887,7 @@ class Editor
     {
         $str = preg_replace('/\s+/u', '', $this->upperCaseWords());
 
-        $str = preg_replace('/(.)(?=[A-Z])/u', '$1' . $delimiter, $str);
+        $str = preg_replace('/(.)(?=[A-Z])/u', '$1'.$delimiter, $str);
 
         return static::create($str)->lowerCase();
     }
@@ -922,7 +922,7 @@ class Editor
 
         $languageSpecific = static::languageSpecificCharsArray($languageCode);
 
-        if ( ! is_null($languageSpecific)) {
+        if (! is_null($languageSpecific)) {
             foreach ($languageSpecific as $search => $replace) {
                 $str = $str->replace($search, $replace);
             }
@@ -940,6 +940,119 @@ class Editor
     }
 
     /**
+     * @param string $format
+     * @param mixed ...$substitutions
+     * @return \Hipsterjazzbo\Editor\Editor
+     */
+    public static function sprintf(string $format, ...$substitutions): self
+    {
+        return static::vsprintf($format, $substitutions);
+    }
+
+    /**
+     * @param string $format
+     * @param array $substitutions
+     * @param string|null $encoding
+     * @return \Hipsterjazzbo\Editor\Editor
+     */
+    public static function vsprintf(string $format, array $substitutions, ?string $encoding = null): self
+    {
+        if (is_null($encoding)) {
+            $encoding = mb_internal_encoding();
+        }
+
+        // Use UTF-8 in the format so we can use the u flag in preg_split
+        $format = mb_convert_encoding($format, 'UTF-8', $encoding);
+
+        // build a new format in UTF-8
+        $newFormat = "";
+
+        // unhandled args in unchanged encoding
+        $newSubstitutions = [];
+
+        while ($format !== "") {
+            // Split the format in two parts: $pre and $post by the first %-directive
+            // We get also the matched groups
+            [
+                $pre,
+                $sign,
+                $filler,
+                $align,
+                $size,
+                $precision,
+                $type,
+                $post,
+            ] = preg_split("!\%(\+?)('.|[0 ]|)(-?)([1-9][0-9]*|)(\.[1-9][0-9]*|)([%a-zA-Z])!u", $format, 2, PREG_SPLIT_DELIM_CAPTURE);
+
+            $newFormat .= mb_convert_encoding($pre, $encoding, 'UTF-8');
+
+            switch ($type) {
+                case '':
+                    // didn't match. do nothing. this is the last iteration.
+                    break;
+
+                case '%':
+                    // an escaped %
+                    $newFormat .= '%%';
+                    break;
+
+                case 's':
+                    $substitution = array_shift($substitutions);
+
+                    $substitution = mb_convert_encoding($substitution, 'UTF-8', $encoding);
+
+                    $paddingPre = '';
+
+                    $paddingPost = '';
+
+                    // truncate $substitution
+                    if ($precision !== '') {
+                        $precision = intval(substr($precision, 1));
+
+                        if ($precision > 0 && mb_strlen($substitution, $encoding) > $precision) {
+                            $substitution = mb_substr($precision, 0, $precision, $encoding);
+                        }
+                    }
+
+                    // define padding
+                    if ($size > 0) {
+                        $substitutionLength = mb_strlen($substitution, $encoding);
+
+                        if ($substitutionLength < $size) {
+                            if ($filler === '') {
+                                $filler = ' ';
+                            }
+
+                            if ($align == '-') {
+                                $paddingPost = str_repeat($filler, $size - $substitutionLength);
+                            } else {
+                                $paddingPre = str_repeat($filler, $size - $substitutionLength);
+                            }
+                        }
+                    }
+
+                    // escape % and pass it forward
+                    $newFormat .= $paddingPre.str_replace('%', '%%', $substitution).$paddingPost;
+                    break;
+
+                default:
+                    // another type, pass forward
+                    $newFormat .= "%$sign$filler$align$size$precision$type";
+
+                    $newSubstitutions[] = array_shift($substitutions);
+                    break;
+            }
+
+            $format = strval($post);
+        }
+
+        // Convert new format back from UTF-8 to the original encoding
+        $newFormat = mb_convert_encoding($newFormat, $encoding, 'UTF-8');
+
+        return new static(vsprintf($newFormat, $newSubstitutions));
+    }
+
+    /**
      * Gets the Inflector for $language, if one exists.
      *
      * @param string $languageCode
@@ -951,7 +1064,7 @@ class Editor
     {
         $languageCode = static::processLanguageCode($languageCode);
 
-        if (!array_key_exists($languageCode, static::$inflectors)) {
+        if (! array_key_exists($languageCode, static::$inflectors)) {
             throw new \InvalidArgumentException('No such language "'.$languageCode.'"');
         }
 
@@ -963,7 +1076,7 @@ class Editor
             }
         }
 
-        throw new InvalidArgumentException($languageCode . ' is an unsupported language');
+        throw new InvalidArgumentException($languageCode.' is an unsupported language');
     }
 
     /**
@@ -1165,7 +1278,7 @@ class Editor
     protected static function processLanguageCode(string $languageCode): string
     {
         return static::create($languageCode)
-                     ->lowerCase()
-                     ->str();
+            ->lowerCase()
+            ->str();
     }
 }
