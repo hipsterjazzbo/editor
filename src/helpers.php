@@ -9,9 +9,25 @@ if (! function_exists('s')) {
      *
      * @return Editor
      */
-    function s(string $str, string $encoding = 'UTF-8'): Editor
+    function s(string $str = null, string $encoding = 'UTF-8'): Editor
     {
+        if ($str === null) {
+            return new Editor();
+        }
+
         return Editor::create($str, $encoding);
+    }
+}
+
+if (! function_exists('sf')) {
+    /**
+     * @param string $format
+     * @param mixed ...$substitutions
+     * @return \Hipsterjazzbo\Editor\Editor
+     */
+    function sf(string $format, ...$substitutions)
+    {
+        return Editor::sprintf($format, ...$substitutions);
     }
 }
 
@@ -26,6 +42,7 @@ if (! function_exists('mb_sprintf')) {
         return Editor::sprintf($format, ...$substitutions)->str();
     }
 }
+
 if (! function_exists('mb_vsprintf')) {
     /**
      * Works with all encodings in format and arguments.
