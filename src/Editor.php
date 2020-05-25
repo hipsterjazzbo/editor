@@ -542,6 +542,27 @@ class Editor
         return static::create($str);
     }
 
+    public function ltrim($charList = " \t\n\r\0\x0B"): self
+    {
+        $str = ltrim($this->str, $charList);
+
+        return static::create($str);
+    }
+
+    public function rtrim($charList = " \t\n\r\0\x0B"): self
+    {
+        $str = rtrim($this->str, $charList);
+
+        return static::create($str);
+    }
+
+    public function base64encode(): self
+    {
+        $str = base64_encode($this->str);
+
+        return static::create($str);
+    }
+
     /////////////////////////////////////////
     /// Search and Query
     /////////////////////////////////////////
